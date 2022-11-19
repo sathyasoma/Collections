@@ -1,0 +1,699 @@
+Collection(I):
+````
+
+Collection is the root interface available in "java.util pacakge"
+  for the purpose of "grouping" both "similar" and "dissimilar" objects
+  into a single unit.
+  
+  since this interface contains fundamental methods to perform
+  fundamental operations like adding the object,removing the object,
+  checking the object,clear the object etc...
+  
+  
+  note: there is no direct implementation class for Collection interface.
+  
+  note: all the collections are allows only object types
+  
+  
+List(I):
+``
+   interface List extends Collection
+   {
+   
+   }
+
+
+  List obj = new List();//invalid
+  List obj = new ArrayList();//valid
+  
+  
+  
+why List interface:
+===================
+->it allows both "homogenious" and "heterogenious' objects
+->duplicates are allowed
+->insertion order is preserved
+->null insertion is possible  
+  
+     ArrayList(c)
+	 LinkedList(c)
+	  -legacy classes
+	 Stack(c)
+	 Vector(c)
+
+
+
+ package com.capg.jse.collections;
+
+import java.util.ArrayList;
+
+public class Test1 {
+	
+	
+	public static void main(String[] args) {
+		
+		//creating the ArrayList object
+		
+		ArrayList al = new ArrayList();
+		
+		al.add(new Integer(100));
+		al.add(new String("ram"));
+		al.add(new Float(45.34f));
+		al.add(new Boolean(false));
+		al.add(new Integer(100));
+		al.add(null);
+		
+		
+		System.out.println(al);
+		
+		
+	}
+
+}
+
+
+q>what is the difference beweeen ArrayList and LinkeList?
+
+if our frequent operation is insertion/deletion/updation then we go
+for LinkedList
+
+             since LinkedList follows internally doubly linkedlist algorithm.
+  
+
+if our frequent operation is retrieval then we can go for ArrayList
+ 
+               since ArrayList implements RandomAccess
+ 
+ 
+example:
+`
+package com.capg.jse.collections;
+
+import java.util.LinkedList;
+
+public class Test1 {
+	
+	
+	public static void main(String[] args) {
+		
+		//creating the LinkedList object
+		
+		LinkedList al = new LinkedList();
+		
+		al.add(new Integer(100));
+		al.add(new String("ram"));
+		al.add(new Float(45.34f));
+		al.add(new Boolean(false));
+		al.add(new Integer(100));
+		al.add(null);
+		
+		
+		System.out.println("size: " + al.size());
+		System.out.println("contains ram: " + al.contains("ram"));
+		System.out.println("First element: " + al.getFirst());
+		System.out.println("Last element: " + al.getLast());
+	    System.out.println("is Empty: " + al.isEmpty());
+	    System.out.println(al.remove());
+	    System.out.println("after remove , size is " + al.size());
+	    System.out.println("removing 0th index element: " + al.remove(0));
+	    System.out.println("after remove 0th index element,size: " + al.size());
+	    
+	    System.out.println(al.remove(false));
+	    
+	    System.out.println("after remove boolean object,size is : " + al.size());
+	    
+	     al.clear();
+	     System.out.println("after clearning every object , size is : " + al.size() + " and the content is  " + al);
+	    
+	    
+	    
+	}
+
+}
+
+
+using autoboxing and autounboxing, primitive values gets converted into 
+object values and object values gets converted into primitive values.
+
+primitive to objects --> auto boxing
+
+objects to primitive -> auto unboxing
+
+this facility introduced in jdk1.5 version
+
+ 
+
+example:
+``
+package com.capg.jse.collections;
+
+import java.util.ArrayList;
+
+public class Test2 {
+
+	public static void main(String[] args) {
+
+		ArrayList al = new ArrayList();
+
+		for (int i = 1; i <= 10; i++) {
+			al.add(i);
+		}
+		System.out.println(al);// priniting all the list elements at once
+		
+		System.out.println(" ======:using for loop displaying:====== ");
+		
+		// using for loop
+		for (int i = 0; i < al.size(); i++) {
+			System.out.println(al.get(i));
+		}
+
+		// using foreach loop
+		System.out.println("using for each loop");
+		for (Object o : al) {
+			System.out.println(o);
+		}
+
+		// using foreach loop
+		System.out.println("using for each loop-displaying only odd elements");
+		for (Object o : al) {
+			// type casting ( Object --> Integer) (Parent --> Child)->Downcasting
+			Integer i = (Integer) o;
+			if (i % 2 != 0) {
+				System.out.println(i);
+			}
+		}
+
+	}
+
+}
+
+
+generics in collections:
+````
+The generic collections disable the type-casting and there is no 
+use of type-casting when it is used in generics. The generic 
+collections are type-safe and checked at compile-time. 
+
+These generic collections allow the datatypes to pass as parameters 
+to classes.
+
+
+
+note:compile time errors are far better than runtime errors.
+
+package com.capg.jse.collections;
+
+import java.util.ArrayList;
+
+public class Test3 {
+	
+	public static void main(String[] args) {
+		
+		//collection with generics
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		
+	 for(int i=1;i<=10;i++)
+	 {
+		 al.add(i);
+	 }
+		
+	 
+	for(Integer i: al)
+	{
+		 if(i%2==0) {
+		System.out.println(i);
+		 }
+	}
+	}
+
+}
+
+
+cursors in java:
+````
+w.r.to collections, if we want to "iterate" the elements from the collection 
+object we will use Cursors.
+
+java.util
+   *Enumeration(we can apply on legacy classes )
+   *Iterator (we can apply on any collection classes)-universal cursors/unidirectinal curosor
+  * ListIterator(we can apply only on list related classes)/bidirectional cursors
+   
+   example:
+   ``
+   package com.capg.jse.collections;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Test4 {
+	
+	public static void main(String[] args) {
+		
+		
+		ArrayList<String> al = new ArrayList();
+		
+		al.add("ram");
+		al.add("rc");
+		al.add("baishali");
+		al.add("saswat");
+		al.add("kinjol");
+		
+		//apply iterator()
+		
+		Iterator<String> iterator = al.iterator();
+			
+	   while(iterator.hasNext())
+	   {
+		  if(iterator.next().contains("rc"))
+		  {
+			  iterator.remove();
+		  }
+			
+		   
+	   }
+	  //for each loop
+	   for(String s: al)
+	   {
+		   System.out.println(s);
+	   }
+	}
+
+}
+
+
+using ListIterator:
+====================
+package com.capg.jse.collections;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
+
+public class Test5 {
+
+	public static void main(String[] args) {
+
+		ArrayList<String> al = new ArrayList();
+
+		al.add("ram");
+		al.add("rc");
+		al.add("baishali");
+		al.add("saswat");
+		al.add("kinjol");
+
+		// apply listIterator()
+
+		 ListIterator<String> ltr = al.listIterator();
+
+		 System.out.println("printing the elements in forward direction");
+		 while(ltr.hasNext())
+		 {
+			 if(ltr.next().contains("ram")) {
+				 ltr.set("rk");
+				 
+			 }
+		
+			 
+		 }
+		 System.out.println("printing the eleemnts in backward direction");
+		 while(ltr.hasPrevious()) {
+			 System.out.println(ltr.previous());
+		 }
+	}
+}
+
+Set:
+========
+Set is also one of the pre-defined interface available in java.util package
+
+
+ ->it allows both homogenious and heterogenious
+ ->it doesn't allows duplicates
+ ->insertion order is not preserved
+ ->null insertion is possible only one time
+ 
+ 
+    implemented classes:
+	
+	    HashSet
+		LinkedHashSet
+		
+		
+example on HashSet:
+````
+package com.capg.jse.collections;
+
+import java.util.HashSet;
+
+public class Test6 {
+	
+	public static void main(String[] args) {
+		
+		
+		HashSet hs = new HashSet();
+		
+		for(int i=1;i<=10;i++) {
+			hs.add(i);
+		}
+		
+		hs.add(10);
+		hs.add("ram");
+		hs.add(null);
+		
+		
+		
+		
+		System.out.println(hs);
+	}
+}
+
+q> what is the difference between HashSet and LinkedHashSet?
+
+  HashSet insertion order is not preserved where as
+  LinkedHashSet  insertion order is preserved.
+  
+  
+example on LinkedHashSet:
+`````
+package com.capg.jse.collections;
+
+import java.util.LinkedHashSet;
+
+public class Test6 {
+	
+	public static void main(String[] args) {
+		
+		
+		LinkedHashSet hs = new LinkedHashSet();
+		
+		for(int i=1;i<=10;i++) {
+			hs.add(i);
+		}
+		
+		hs.add(10);
+		hs.add("ram");
+		hs.add(null);
+		
+		
+		
+		
+		System.out.println(hs);
+	}
+
+}
+ 
+SortedSet(i):
+============
+SortedSet is an interface -> java.util package
+
+
+properties:
+
+  ->it doesn't allows both homogenious and heterogenious
+    it only allows homogenious elements
+
+  ->duplicates are not allowed
+ 
+  -> null insertion is not possible even for one time
+ 
+  -> we can predict the insertion order
+  
+ 
+         implemented class:
+
+                 TreeSet(c)
+
+example:
+```
+package com.capg.jse.collections;
+
+import java.util.TreeSet;
+
+public class Test7 {
+	
+	public static void main(String[] args) {
+		
+		
+		TreeSet<Integer> ts = new TreeSet();
+		
+		for(int i=1;i<=10;i++)
+		{
+			ts.add(i);
+		}
+		ts.add(-67);
+		ts.add(45);
+		ts.add(9);
+		
+		
+		System.out.println(ts);
+	}
+
+}
+
+
+note:
+`
+if we want to add any objects to the TreeSet objects it must 
+be 
+
+ -homogenious and comparable objects
+
+StringBuffer is the class which is not implemented from Comparable interface.
+
+
+example:
+``
+package com.capg.jse.collections;
+
+import java.util.TreeSet;
+
+public class Test8 {
+
+	public static void main(String[] args) {
+
+		TreeSet<String> ts = new TreeSet();
+
+		/*
+		 * ts.add(new StringBuffer("ram")); ts.add(new StringBuffer("baishali"));
+		 * ts.add(new StringBuffer("kinjol")); ts.add(new StringBuffer("ashmita"));
+		 */
+
+		ts.add(new String("ram"));
+		ts.add(new String("baishali"));
+		ts.add(new String("kinjol"));
+		ts.add(new String("ashmita"));
+
+		System.out.println(ts);
+	}
+
+}
+
+
+whatever the collections so far we have seen all these are one dimesion 
+collection classes
+
+so far we have added only predefined objects to the  collection classes
+
+
+how can we add user defined object to the collectin class:
+`````````
+package com.capg.jse.collections;
+
+import java.util.ArrayList;
+
+public class Test9 {
+	
+	public static void main(String[] args) {
+		
+		ArrayList<Employee> al = new ArrayList();
+		
+		al.add(new Employee(100,"ram"));
+		al.add(new Employee(101,"saswat"));
+		al.add(new Employee(102,"kinjol"));
+		
+		//for each loop
+		
+		for(Employee e: al)
+		{
+			if(e.getEmpid()==102)
+			{
+				System.out.println(e);
+			}
+		}
+		
+	}
+
+}
+
+
+Employee.java:
+``
+package com.capg.jse.collections;
+
+//pojo class
+public class Employee {
+	
+	private int empid;
+	private String empname;
+	public int getEmpid() {
+		return empid;
+	}
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+	public String getEmpname() {
+		return empname;
+	}
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+	
+	public Employee()
+	{
+		
+	}
+	public Employee(int empid, String empname) {
+		super();
+		this.empid = empid;
+		this.empname = empname;
+	}
+	
+	public String toString()
+	{
+		return empid + " " + empname;
+	}
+
+	
+}
+
+
+
+2 dimension collection framework:
+`````
+if we would like organize the data in the form of (key,value) pair,
+then we can go for 2 dcf.
+
+ Map
+ SortedMap
+ 
+   HashMap
+   LinkedHashMap
+   HashTable
+   TreeMap
+   
+   
+properties of Map:
+````
+key,value
+ key -object
+ value - object
+ 
+ key and value objects allows both homogenious and heterogenious
+ key object is not duplicated.
+ values objects can be duplicated
+ null insertion is possible
+ insertion order is not preserved.
+ 
+ 
+ EXAMPLE:
+ ``
+ package com.capg.jse.collections;
+
+import java.util.HashMap;
+
+public class Test10 {
+	
+	public static void main(String[] args) {
+		
+		
+		HashMap hm = new HashMap();
+		
+		hm.put(100,"ram");
+		hm.put(101, "krishna");
+		hm.put(102, "krishna");
+		
+		hm.put("ram", 100);
+		hm.put(true, 345.45);
+		hm.put(null,null);
+		
+		
+		System.out.println(hm);
+	}
+
+}
+
+
+example on HashMap methods:
+`````
+package com.capg.jse.collections;
+
+import java.util.HashMap;
+
+public class Test11 {
+	
+	public static void main(String[] args) {
+		
+		
+		HashMap<Integer,String> hm = new HashMap();
+		
+		hm.put(100, "ram");
+		hm.put(101, "krishna");
+		hm.put(102, "kinjol");
+		hm.put(103, "baishali");
+		
+		System.out.println(hm.get(100));
+		
+		System.out.println(hm.isEmpty());
+		
+		System.out.println(hm.containsKey(103));
+		
+		System.out.println(hm.remove(103));
+		
+		System.out.println(hm.size());
+		
+		hm.clear();
+		
+		System.out.println(hm.size());
+		
+		System.out.println(hm);	
+	}
+
+}
+
+
+example on Map.Entry:
+```
+package com.capg.jse.collections;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+public class Test12 {
+	
+	public static void main(String[] args) {
+		
+		
+		HashMap<Integer,String> hm = new HashMap();
+		
+		hm.put(100, "ram");
+		hm.put(101, "krishna");
+		hm.put(102, "kinjol");
+		hm.put(103, "baishali");
+		
+		Set<Entry<Integer, String>> entrySet = hm.entrySet();
+		
+		for(Map.Entry<Integer,String> me:entrySet)
+		{
+			System.out.println(me.getKey() + "==>" + me.getValue());
+		}
+	}
+
+}
+
+
+refer Hashtable and TreeMap:
+```````
+assingment: try to add user defined objects to the any Map object:
